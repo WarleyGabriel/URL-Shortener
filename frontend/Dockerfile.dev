@@ -1,0 +1,19 @@
+FROM node:24-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json tsconfig.json ./
+RUN npm ci
+
+# Copy the rest of the code
+COPY . .
+
+# Enable polling for file watching
+ENV CHOKIDAR_USEPOLLING=true
+
+# Expose application port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
